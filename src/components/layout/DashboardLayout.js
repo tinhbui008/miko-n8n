@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import FilterWorkflow from '../common/FilterWorkflow';
 
 const { Content } = Layout;
 
@@ -34,7 +35,7 @@ export default function DashboardLayout({ children }) {
             ))}
           </div>
         </div>
-        
+
         {/* Main Content Skeleton */}
         <div className="flex-1 flex flex-col">
           <div className="h-16 bg-white border-b border-gray-200">
@@ -70,6 +71,8 @@ export default function DashboardLayout({ children }) {
       <Sidebar collapsed={collapsed} onCollapse={setCollapsed} />
       <Layout>
         <Header collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
+        <FilterWorkflow />
+
         <Content className="p-6 bg-gray-50 overflow-auto">
           <div className="max-w-7xl mx-auto">
             {children}

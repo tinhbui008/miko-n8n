@@ -39,7 +39,7 @@ export default function Header({ collapsed, onToggle }) {
   return (
     <AntHeader
       className="bg-white px-6 flex items-center justify-between ml-6"
-      style={{ height: '70px', backgroundColor: '#ffffff' }}
+      style={{ height: '70px', backgroundColor: '#ffffff', marginTop: '20px' }}
     >
       <div className="flex items-center">
         <Breadcrumb
@@ -50,13 +50,14 @@ export default function Header({ collapsed, onToggle }) {
 
       <div className="flex items-center space-x-4">
         <Badge count={3} size="small">
-          <BellOutlined className="text-xl text-gray-600 cursor-pointer" />
+          <BellOutlined className="text-xl text-gray-600 cursor-pointer bg-gray-200 rounded-full p-2" />
         </Badge>
 
-        <div className="flex items-center space-x-2 cursor-pointer px-3 py-2 rounded-lg transition-colors">
+        <div className="flex items-center space-x-2 cursor-pointer px-3 py-2 rounded-lg transition-colors m-1">
           <Avatar
             icon={<UserOutlined />}
-            size="medium"
+            size="large"
+            src="/images/avatar.jpg"
             style={{ backgroundColor: '#4fd1c7', marginRight: '10px' }}
           />
           <span className="text-xs ml-2">

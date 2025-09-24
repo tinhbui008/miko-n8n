@@ -143,12 +143,17 @@ body {
   }
 }
 
+.dashboard-sidebar-menu {
+  padding: 0 10px !important;
+}
+
+
 /* Dashboard Sidebar Menu */
 .dashboard-sidebar-menu .ant-menu-item {
   border-radius: 10px !important;
-  /* height: 48px !important;
+  /* height: 48px !important; */
   line-height: 48px !important;
-  font-weight: 500 !important; */
+  font-weight: 500 !important;
 }
 
 .dashboard-sidebar-menu .ant-menu-item:hover {
@@ -186,6 +191,10 @@ body {
 
 .ant-card:hover {
   transform: translateY(-2px);
+}
+
+.ant-layout-content {
+  background-color: #F5F5F5 !important;
 }
 
 /* Custom scrollbar */
