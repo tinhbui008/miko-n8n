@@ -129,10 +129,10 @@ body {
 }
 
 /* Header search styling */
-.ant-input-search .ant-input-search-button {
+/* .ant-input-search .ant-input-search-button {
   background-color: #4fd1c7 !important;
   border-color: #4fd1c7 !important;
-}
+} */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -179,6 +179,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -220,3 +221,26 @@ body {
 .w-280 {
   width: 280px;
 }
+
+
+
+/*header*/
+.ant-layout-header {
+  padding: 0 0 0 20px;
+  margin-left: 25px;
+}
+
+
+.flex.items-center.space-x-2.cursor-pointer.px-3.py-2.rounded-lg.transition-colors.m-1 {
+  padding: 0 !important;
+}
+  
+.ant-breadcrumb-link {
+  font-size: 30px !important;
+  font-weight: 600 !important;
+}
+
+.ant-tabs-nav::before {
+  display: none !important;
+}
+  

@@ -38,13 +38,13 @@ export default function Header({ collapsed, onToggle }) {
 
   return (
     <AntHeader
-      className="bg-white px-6 flex items-center justify-between ml-6"
-      style={{ height: '70px', backgroundColor: '#ffffff', marginTop: '20px' }}
+      className="bg-white px-6 flex items-center justify-between"
+      style={{ height: '60px', backgroundColor: '#ffffff' }}
     >
       <div className="flex items-center">
         <Breadcrumb
           items={getBreadcrumbItems()}
-          className="text-lg font-semibold text-gray-800"
+          className="font-semibold text-gray-600"
         />
       </div>
 
@@ -63,7 +63,7 @@ export default function Header({ collapsed, onToggle }) {
           <span className="text-xs ml-2">
             Hello
             <br />
-            <span className="text-sm text-gray-500">Tháng</span>
+            <span className="text-sm text-black font-semibold">Tính Bùi</span>
           </span>
 
           <Button type="text" icon={<EllipsisOutlined />} style={{ rotate: '90deg' }} />

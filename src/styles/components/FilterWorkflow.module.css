@@ -1,0 +1,266 @@
+/* src/styles/components/FilterTabs.module.css */
+
+.filterContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 24px;
+  transition: all 0.2s ease;
+}
+
+.filterContainer:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contentWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tabsWrapper {
+  flex: 1;
+}
+
+.searchWrapper {
+  margin-left: auto;
+  min-width: 280px;
+}
+
+/* Tabs Styling */
+.filterTabs :global(.ant-tabs-nav) {
+  margin-bottom: 0 !important;
+}
+
+.filterTabs :global(.ant-tabs-tab) {
+  padding: 12px 20px !important;
+  margin-right: 8px !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+.filterTabs :global(.ant-tabs-tab:hover) {
+  color: #4fd1c7 !important;
+  background: rgba(79, 209, 199, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+.filterTabs :global(.ant-tabs-tab-active) {
+  color: #4fd1c7 !important;
+  background: rgba(79, 209, 199, 0.12) !important;
+  border-color: transparent !important;
+  font-weight: 600 !important;
+}
+
+.filterTabs :global(.ant-tabs-ink-bar) {
+  background: #4fd1c7 !important;
+  height: 3px !important;
+  border-radius: 2px !important;
+  box-shadow: 0 2px 4px rgba(79, 209, 199, 0.3);
+}
+
+.filterTabs :global(.ant-tabs-nav-wrap) {
+  padding-bottom: 4px;
+}
+
+/* Search Input Styling */
+.searchInput :global(.ant-input-wrapper input) {
+  background-color: #fff;
+}
+
+.searchInput :global(.ant-input-wrapper button) {
+  background-color: #fff;
+}
+
+/* Mobile Responsive */
+.mobileContainer {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  padding: 16px;
+}
+
+.mobileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mobileSearchWrapper {
+  flex: 1;
+  margin-left: 16px;
+}
+
+.filterButton {
+  height: 40px !important;
+  border-radius: 10px !important;
+  border-color: #e5e7eb !important;
+  background: white !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+}
+
+.filterButton:hover {
+  border-color: #4fd1c7 !important;
+  color: #4fd1c7 !important;
+}
+
+/* Tab Count Badge */
+.tabWithCount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countBadge {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.filterTabs :global(.ant-tabs-tab-active) .countBadge {
+  background: rgba(79, 209, 199, 0.2);
+  color: #4fd1c7;
+}
+
+/* Drawer Styling for Mobile */
+.mobileDrawer :global(.ant-drawer-body) {
+  padding: 24px 16px;
+}
+
+.mobileTabsWrapper {
+  width: 100%;
+}
+
+.mobileTabsWrapper :global(.ant-tabs-tab) {
+  width: 100% !important;
+  text-align: center !important;
+  margin-bottom: 8px !important;
+  border: 1px solid #e5e7eb !important;
+  background: #fafafa !important;
+}
+
+/* .mobileTabsWrapper :global(.ant-tabs-tab-active) {
+  border-color: #4fd1c7 !important;
+  background: rgba(79, 209, 199, 0.08) !important;
+} */
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterContainer {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Loading State */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #4fd1c7;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark Theme Support */
+/* @media (prefers-color-scheme: dark) {
+  .filterContainer {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .filterTabs :global(.ant-tabs-tab) {
+    color: #d1d5db !important;
+  }
+
+  .filterTabs :global(.ant-tabs-tab:hover) {
+    background: rgba(79, 209, 199, 0.15) !important;
+  }
+
+  .searchInput :global(.ant-input-affix-wrapper) {
+    background: #ffffff !important;
+  }
+
+  .searchInput :global(.ant-input) {
+    background: transparent !important;
+    color: #f9fafb !important;
+  }
+} */
+
+.customTabs :global(.ant-tabs-tab) {
+  padding: 6px 12px !important;
+  margin: 0 4px !important;
+  border-radius: 4px !important;
+  color: #7B7B7B !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+.customTabs :global(.ant-tabs-tab:hover) {
+  color: #4fd1c7 !important;
+}
+
+.customTabs :global(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #454545 !important;
+}
+
+.customTabs :global(.ant-tabs-tab-active) {
+  background: #fff !important;
+  font-weight: 600 !important;
+}
+
+.customTabs :global(.ant-tabs-ink-bar) {
+  display: none !important;
+}
+
+.customTabs :global(.ant-tabs-nav) {
+  margin-bottom: 0 !important;
+}
+
+.customTabs :global(.ant-tabs-nav-wrap) {
+  padding: 8px 0 !important;
+}

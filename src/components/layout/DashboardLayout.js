@@ -1,17 +1,108 @@
 // src/components/layout/DashboardLayout.js
 'use client';
 
-import { Layout } from 'antd';
+import { Layout, Flex, Radio, Space, Row, Col, Card } from 'antd';
 import { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import FilterWorkflow from '../common/FilterWorkflow';
+import { sampleProducts } from '@/data/sampleData';
+import WorkflowCard from '../card/WorkflowCard';
 
 const { Content } = Layout;
 
 export default function DashboardLayout({ children }) {
   const [mounted, setMounted] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filterTabs = [
+    {
+      key: 'all',
+      label: 'All',
+    },
+    {
+      key: 'social',
+      label: 'Social',
+    },
+    {
+      key: 'marketing',
+      label: 'Marketing',
+    },
+    {
+      key: 'video',
+      label: 'Video',
+    },
+    {
+      key: 'image',
+      label: 'Image',
+    }
+  ];
+
+
+  const cards = [
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    }
+  ]
+
+  const handleTabChange = (key) => {
+    setActiveTab(key);
+    console.log('Tab changed:', key);
+  };
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    console.log('Search:', value);
+  };
+
+  // Filter products based on tab and search
+  const filteredProducts = sampleProducts.filter(product => {
+    const matchesTab = activeTab === 'all' || product.category === activeTab;
+    const matchesSearch = !searchTerm ||
+      product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesTab && matchesSearch;
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -71,13 +162,134 @@ export default function DashboardLayout({ children }) {
       <Sidebar collapsed={collapsed} onCollapse={setCollapsed} />
       <Layout>
         <Header collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
-        <FilterWorkflow />
+        <FilterWorkflow
+          tabs={filterTabs}
+          defaultActiveKey="all"
+          onTabChange={handleTabChange}
+          onSearch={handleSearch}
+          searchPlaceholder="Tìm kiếm ..." />
 
-        <Content className="p-6 bg-gray-50 overflow-auto">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
-        </Content>
+        {/* <Flex justify="space-around" gap="middle">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <WorkflowCard key={i} {...cards[i]} />
+          ))}
+        </Flex> */}
+
+        <div style={{ marginLeft: '22px', marginRight: '20px' }}>
+          <Row gutter={[12, 12]}>
+            <Col span={6}>
+              <Card>
+                <Flex style={{ overflow: 'hidden', flexWrap: 'nowrap', gap: '10px' }}>
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+
+                  <div style={{ padding: 10, border: '1px solid #ccc', flex: '0 0 50px' }}>
+                    <svg
+                      width='100%'
+                      height='100%'
+                      viewBox="0 0 48 48"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z" />
+                      <path fill="#1976d2" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z" />
+                      <polygon fill="#8bc34a" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17" />
+                      <path fill="#2196f3" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z" />
+                      <path fill="#4caf50" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z" />
+                    </svg>
+                  </div>
+                  
+                </Flex>
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card>
+                Card content
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card>
+                Card content
+              </Card>
+            </Col>
+            <Col span={6}>
+              <Card>
+                Card content
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </Layout>
     </Layout>
   );
