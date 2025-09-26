@@ -101,6 +101,26 @@ export default function DashboardLayout({ children }) {
       title: 'Workflow 1',
       description: 'Description 1',
       cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
+    },
+    {
+      title: 'Workflow 1',
+      description: 'Description 1',
+      cover: 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png',
     }
   ]
 
