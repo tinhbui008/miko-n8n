@@ -1,17 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, StepForwardOutlined, HeartOutlined, StarFilled } from '@ant-design/icons';
-import { Avatar, Card, Flex, Button } from 'antd';
+import { Avatar, Card, Flex, Button, Popover } from 'antd';
 const { Meta } = Card;
 import Image from 'next/image';
 import styles from '../../styles/components/Workflow.module.css';
 
 export default function WorkflowCard() {
-
     const text = "AI tạo email giới thiệu cá nhân hóa (chèn tên, nhu cầu, gợi ý sản phẩm). Nếu khách hàng mở mail nhưng ádasdas ...";
     const truncatedText = text.length > 100 ? text.substring(0, 100) + "..." : text;
 
+    const popoverContent = (
+        <div style={{ width: 400 }}>
+            <h3 className="text-lg font-semibold mb-2">Đăng bài lên Facebook</h3>
+            <p className="text-gray-600 mb-4">{text}</p>
+
+            <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <span className="font-medium">Giá:</span>
+                    <span className="ml-2 text-teal-600 font-bold">99.000đ</span>
+                </div>
+                <div>
+                    <span className="font-medium">Đánh giá:</span>
+                    <span className="ml-2">⭐ 4.8</span>
+                </div>
+            </div>
+
+            <div className="mb-4">
+                <span className="font-medium">Ứng dụng được kết nối:</span>
+                <div className="mt-2 flex flex-wrap gap-2">
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Gmail</span>
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Google Sheets</span>
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Telegram</span>
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Zalo</span>
+                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">WordPress</span>
+                </div>
+            </div>
+
+            <div className="flex gap-2 mt-6">
+                <Button type="primary" size="small">Mua ngay</Button>
+                <Button size="small">Xem chi tiết</Button>
+            </div>
+        </div>
+    );
+
     return (
-        <Card style={{ width: '370px' }}>
+        <Popover
+            content={popoverContent}
+            title="Chi tiết Workflow"
+            trigger="hover"
+            mouseEnterDelay={0.1}
+            placement="right"
+        >
+        <Card style={{ width: '370px', cursor: 'pointer' }}>
             <Flex style={{ position: 'absolute', top: '20px', right: '22px', gap: '10px', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(6px)', padding: '5px 18px' }}>
                 <StarFilled style={{ color: '#FFDE5A' }} />
                 <span className='text-sm font-semibold'>4.8</span>
@@ -64,6 +104,7 @@ export default function WorkflowCard() {
                 <Button className={`${styles.buy_now} font-bold`}>Buy Now</Button>
             </Flex>
         </Card>
+        </Popover>
     )
 }
 
