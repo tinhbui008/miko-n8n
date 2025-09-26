@@ -1,8 +1,12 @@
 // src/app/layout.js
-import { Inter } from 'next/font/google';
+import { Inter, Roboto } from 'next/font/google';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700']
+})
 
 export const metadata = {
   title: 'Miko N8N Clone',
@@ -12,7 +16,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         {children}
       </body>
     </html>

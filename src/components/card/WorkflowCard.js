@@ -1,18 +1,69 @@
 import React from 'react';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card, Flex } from 'antd';
+import { EditOutlined, EllipsisOutlined, SettingOutlined, StepForwardOutlined, HeartOutlined, StarFilled } from '@ant-design/icons';
+import { Avatar, Card, Flex, Button } from 'antd';
 const { Meta } = Card;
+import Image from 'next/image';
+import styles from '../../styles/components/Workflow.module.css';
 
 export default function WorkflowCard() {
-    return (
-        <div>
-            <Card style={{ width: 350 }}>
-                <p>Card content</p>
-                <p>Card content</p>
-                <p>Card content</p>
-            </Card>
 
-        </div>
+    const text = "AI tạo email giới thiệu cá nhân hóa (chèn tên, nhu cầu, gợi ý sản phẩm). Nếu khách hàng mở mail nhưng ádasdas ...";
+    const truncatedText = text.length > 100 ? text.substring(0, 100) + "..." : text;
+
+    return (
+        <Card style={{ width: '370px' }}>
+            <Flex style={{ position: 'absolute', top: '20px', right: '22px', gap: '10px', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(6px)', padding: '5px 18px' }}>
+                <StarFilled style={{ color: '#FFDE5A' }} />
+                <span className='text-sm font-semibold'>4.8</span>
+                <HeartOutlined />
+            </Flex>
+
+            <Flex style={{ overflow: 'hidden', flexWrap: 'nowrap', gap: '9px' }}>
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/google-mail.png" width={50} height={50} />
+                </div>
+
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/google-sheet.png" width={50} height={50} />
+                </div>
+
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/telegram.png" width={50} height={50} />
+                </div>
+
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/zalo.png" width={50} height={50} />
+                </div>
+
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
+                </div>
+
+                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                    <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
+                </div>
+            </Flex>
+
+            <div style={{ margin: '6px 0' }}>
+                <h2 className='text-sm font-semibold'>Đăng bài lên Facebook</h2>
+            </div>
+
+            <div>
+                <p className='text-xs text-gray-500'>
+                    {truncatedText}
+                </p>
+            </div>
+
+            <Flex style={{ justifyContent: 'space-between', margin: '10px 0', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                    <Flex vertical>
+                        <span className={`${styles.price_title} font-bold`}>Price</span>
+                        <span className={`${styles.price_value} font-semibold`}>99.000đ</span>
+                    </Flex>
+                </div>
+                <Button className={`${styles.buy_now} font-bold`}>Buy Now</Button>
+            </Flex>
+        </Card>
     )
 }
 

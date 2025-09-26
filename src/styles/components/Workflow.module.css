@@ -1,0 +1,22 @@
+.price_title {
+    font-size: 13px;
+    color: #c8c8c8;
+}
+
+.price_value {
+    font-size: 15px;
+    color: #2B8279;
+    font-weight: 700;
+}
+
+.buy_now {
+    padding: 20px 80px;
+    color: #c8c8c8;
+    font-weight: 700;
+}
+
+
+.buy_now:hover {
+    color: #2B8279 !important;
+    border: 1px solid #2B8279 !important;
+}

@@ -63,7 +63,7 @@ export default function Header({ collapsed, onToggle }) {
           <span className="text-xs ml-2">
             Hello
             <br />
-            <span className="text-sm text-black font-semibold">Tính Bùi</span>
+            <span className="text-sm text-b-500 font-semibold">Tính Bùi</span>
           </span>
 
           <Button type="text" icon={<EllipsisOutlined />} style={{ rotate: '90deg' }} />
