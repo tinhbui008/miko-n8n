@@ -1,0 +1,103 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(200deg, #B5F0E9 0%, #EDFBFA 50%, #80deea 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.loginBox {
+  background: white;
+  padding: 48px 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  max-width: 420px;
+}
+
+.logoContainer {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #4DD0E1 0%, #26C6DA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.input {
+  border-radius: 8px;
+}
+
+.inputIcon {
+  color: #bfbfbf;
+}
+
+.submitButton {
+  border-radius: 8px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  background: linear-gradient(90deg, #4DD0E1 0%, #26C6DA 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(77, 208, 225, 0.3);
+}
+
+.submitButtonItem {
+  margin-bottom: 16px;
+}
+
+.divider {
+  margin: 24px 0;
+  color: #C8C8C8 !important;
+  font-size: 14px;
+}
+
+.socialButtonsContainer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.socialButton {
+  border-radius: 8px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #d9d9d9;
+}
+
+.googleIcon {
+  font-size: 20px;
+  color: #DB4437;
+}
+
+.footerLinks {
+  text-align: center;
+}
+
+.footerText {
+  color: #595959;
+  font-size: 14px;
+}
+
+.footerTextMargin {
+  color: #595959;
+  font-size: 14px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.link {
+  color: #26C6DA;
+  font-weight: 500;
+}

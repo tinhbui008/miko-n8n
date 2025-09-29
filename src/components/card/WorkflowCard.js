@@ -1,270 +1,149 @@
 import React, { useState } from 'react';
 import { EditOutlined, EllipsisOutlined, SettingOutlined, StepForwardOutlined, HeartOutlined, StarFilled } from '@ant-design/icons';
-import { Avatar, Card, Flex, Button, Popover } from 'antd';
+import { Avatar, Card, Flex, Button, Modal } from 'antd';
 const { Meta } = Card;
 import Image from 'next/image';
 import styles from '../../styles/components/Workflow.module.css';
 
 export default function WorkflowCard() {
-    const text = "AI tạo email giới thiệu cá nhân hóa (chèn tên, nhu cầu, gợi ý sản phẩm). Nếu khách hàng mở mail nhưng ádasdas ...";
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [hoverTimer, setHoverTimer] = useState(null);
+
+    const text = "AI tạo email giới thiệu cá nhân hóa (chèn tên, nhu cầu, gợi ý sản phẩm). Nếu khách hàng mở mail nhưng ...";
     const truncatedText = text.length > 100 ? text.substring(0, 100) + "..." : text;
 
-    const popoverContent = (
-        <div style={{ width: 400 }}>
-            <h3 className="text-lg font-semibold mb-2">Đăng bài lên Facebook</h3>
-            <p className="text-gray-600 mb-4">{text}</p>
+    const handleClick = () => {
+        setIsModalOpen(true);
+    };
 
-            <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <span className="font-medium">Giá:</span>
-                    <span className="ml-2 text-teal-600 font-bold">99.000đ</span>
-                </div>
-                <div>
-                    <span className="font-medium">Đánh giá:</span>
-                    <span className="ml-2">⭐ 4.8</span>
-                </div>
-            </div>
-
-            <div className="mb-4">
-                <span className="font-medium">Ứng dụng được kết nối:</span>
-                <div className="mt-2 flex flex-wrap gap-2">
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Gmail</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Google Sheets</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Telegram</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">Zalo</span>
-                    <span className="bg-gray-100 px-3 py-1 rounded-full text-sm">WordPress</span>
-                </div>
-            </div>
-
-            <div className="flex gap-2 mt-6">
-                <Button type="primary" size="small">Mua ngay</Button>
-                <Button size="small">Xem chi tiết</Button>
-            </div>
-        </div>
-    );
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
 
     return (
-        <Popover
-            content={popoverContent}
-            title="Chi tiết Workflow"
-            trigger="hover"
-            mouseEnterDelay={0.1}
-            placement="right"
-        >
-        <Card style={{ width: '370px', cursor: 'pointer' }}>
-            <Flex style={{ position: 'absolute', top: '20px', right: '22px', gap: '10px', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(6px)', padding: '5px 18px' }}>
-                <StarFilled style={{ color: '#FFDE5A' }} />
-                <span className='text-sm font-semibold'>4.8</span>
-                <HeartOutlined />
-            </Flex>
+        <>
+            <Card
+                style={{ width: '370px', cursor: 'pointer' }}
+            >
+                <Flex style={{ position: 'absolute', top: '20px', right: '22px', gap: '10px', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(6px)', padding: '5px 18px' }}>
+                    <StarFilled style={{ color: '#FFDE5A' }} />
+                    <span className='text-sm font-semibold'>4.8</span>
+                    <HeartOutlined />
+                </Flex>
 
-            <Flex style={{ overflow: 'hidden', flexWrap: 'nowrap', gap: '9px' }}>
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/google-mail.png" width={50} height={50} />
+                <Flex style={{ overflow: 'hidden', flexWrap: 'nowrap', gap: '9px' }}>
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/google-mail.png" width={50} height={50} />
+                    </div>
+
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/google-sheet.png" width={50} height={50} />
+                    </div>
+
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/telegram.png" width={50} height={50} />
+                    </div>
+
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/zalo.png" width={50} height={50} />
+                    </div>
+
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
+                    </div>
+
+                    <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
+                        <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
+                    </div>
+                </Flex>
+
+                <div style={{ margin: '6px 0' }}>
+                    <h2 className='text-sm font-semibold'>Đăng bài lên Facebook</h2>
                 </div>
 
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/google-sheet.png" width={50} height={50} />
-                </div>
-
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/telegram.png" width={50} height={50} />
-                </div>
-
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/zalo.png" width={50} height={50} />
-                </div>
-
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
-                </div>
-
-                <div style={{ padding: '0 10px', border: '1px solid #f7f7f7', flex: '0 0 50px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}>
-                    <Image alt="image" src="/images/wordpress.png" width={50} height={50} />
-                </div>
-            </Flex>
-
-            <div style={{ margin: '6px 0' }}>
-                <h2 className='text-sm font-semibold'>Đăng bài lên Facebook</h2>
-            </div>
-
-            <div>
-                <p className='text-xs text-gray-500'>
-                    {truncatedText}
-                </p>
-            </div>
-
-            <Flex style={{ justifyContent: 'space-between', margin: '10px 0', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                    <Flex vertical>
-                        <span className={`${styles.price_title} font-bold`}>Price</span>
-                        <span className={`${styles.price_value} font-semibold`}>99.000đ</span>
+                    <p className='text-xs text-gray-500'>
+                        {truncatedText}
+                        <a href="#" className="text-blue-500 font-bold" onClick={handleClick}>Xem thêm</a>
+                    </p>
+
+                </div>
+
+                <Flex style={{ justifyContent: 'space-between', margin: '10px 0', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                        <Flex vertical>
+                            <span className={`${styles.price_title} font-bold`}>Price</span>
+                            <span className={`${styles.price_value} font-semibold`}>99.000đ</span>
+                        </Flex>
+                    </div>
+                    <Button className={`${styles.buy_now} font-bold`}>Buy Now</Button>
+                </Flex>
+            </Card>
+
+            <Modal
+                open={isModalOpen}
+                style={{ top: 150, left: 22 }}
+                width={499}
+                height={504}
+                closable={false}
+                onCancel={handleModalClose}
+                footer={null}
+            >
+                <div>
+                    <Flex style={{ justifyContent: 'space-between' }}>
+                        <div>
+                            <Flex style={{ alignItems: 'center', gap: '20px', margin: '10px 0', border: '1px solid #EFEFEF', padding: '10px 10px' }}>
+                                <Image alt="image" src="/images/google-mail.png" width={35} height={35} />
+                                <span style={{ lineHeight: '40px', fontWeight: 'bold', color: '#676767', fontSize: '20px' }}>Hook Email</span>
+                            </Flex>
+
+                            <Flex style={{ alignItems: 'center', gap: '20px', margin: '10px 0', border: '1px solid #EFEFEF', padding: '10px 10px' }}>
+                                <Image alt="image" src="/images/google-sheet.png" width={35} height={35} />
+                                <span style={{ lineHeight: '40px', fontWeight: 'bold', color: '#676767', fontSize: '20px' }}>Chatbot Telegram</span>
+                            </Flex>
+
+                            <Flex style={{ alignItems: 'center', gap: '20px', margin: '10px 0', border: '1px solid #EFEFEF', padding: '10px 10px' }}>
+                                <Image alt="image" src="/images/wordpress.png" width={35} height={35} />
+                                <span style={{ lineHeight: '40px', fontWeight: 'bold', color: '#676767', fontSize: '20px' }}>Call Data WordPress</span>
+                            </Flex>
+
+                            <Flex style={{ alignItems: 'center', gap: '20px', margin: '10px 0', border: '1px solid #EFEFEF', padding: '10px 10px' }}>
+                                <Image alt="image" src="/images/zalo.png" width={35} height={35} />
+                                <span style={{ lineHeight: '40px', fontWeight: 'bold', color: '#676767', fontSize: '20px' }}>Call Data WordPress</span>
+                            </Flex>
+
+                            <Flex style={{ alignItems: 'center', gap: '20px', margin: '10px 0', border: '1px solid #EFEFEF', padding: '10px 10px' }}>
+                                <Image alt="image" src="/images/google-sheet.png" width={35} height={35} />
+                                <span style={{ lineHeight: '40px', fontWeight: 'bold', color: '#676767', fontSize: '20px' }}>Push Notification</span>
+                            </Flex>
+                        </div>
+
+                        <Flex style={{ border: '1px solid #EFEFEF', position: 'absolute', top: '20px', right: '22px', gap: '10px', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(6px)', padding: '5px 18px' }}>
+                            <StarFilled style={{ color: '#FFDE5A' }} />
+                            <span className='text-sm font-semibold'>4.8</span>
+                            <HeartOutlined />
+                        </Flex>
+                    </Flex>
+
+                    <h2 className='text-sm font-semibold'>Đăng bài lên Facebook</h2>
+
+                    <p className='text-xs text-gray-500'>
+                        {truncatedText}
+                        <a href="#" className="text-blue-500 font-bold" onClick={handleClick}>Xem thêm</a>
+                    </p>
+
+                    <Flex style={{ justifyContent: 'space-between', margin: '10px 0', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div>
+                            <Flex vertical>
+                                <span className={`${styles.price_title} font-bold`}>Price</span>
+                                <span className={`${styles.price_value} font-semibold`}>99.000đ</span>
+                            </Flex>
+                        </div>
+
+                        <Button className={`${styles.buy_now_modal} ${styles.buy_now} font-bold`}>Buy Now</Button>
                     </Flex>
                 </div>
-                <Button className={`${styles.buy_now} font-bold`}>Buy Now</Button>
-            </Flex>
-        </Card>
-        </Popover>
+            </Modal>
+        </>
     )
 }
-
-
-// src/components/marketplace/ProductCard.js
-// 'use client';
-
-// import React, { useState } from 'react';
-// import { Card, Button, Typography } from 'antd';
-// import { HeartOutlined, HeartFilled } from '@ant-design/icons';
-
-// const { Text, Title } = Typography;
-
-// // Custom App Icons
-// const AppIcons = {
-//     Gmail: () => (
-//         <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-yellow-500 rounded-lg flex items-center justify-center">
-//             <span className="text-white font-bold text-lg">M</span>
-//         </div>
-//     ),
-//     Excel: () => (
-//         <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
-//             <div className="w-6 h-6 bg-white rounded grid grid-cols-2 gap-0.5 p-1">
-//                 <div className="bg-green-600 rounded-sm"></div>
-//                 <div className="bg-green-600 rounded-sm"></div>
-//                 <div className="bg-green-600 rounded-sm"></div>
-//                 <div className="bg-green-600 rounded-sm"></div>
-//             </div>
-//         </div>
-//     ),
-//     Telegram: () => (
-//         <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-//             <div className="w-5 h-5 border-2 border-white rounded-full relative">
-//                 <div className="absolute top-0 right-0 w-2 h-2 bg-white rounded-full transform translate-x-1 -translate-y-1"></div>
-//             </div>
-//         </div>
-//     ),
-//     Zalo: () => (
-//         <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-//             <span className="text-white font-bold text-sm">Zalo</span>
-//         </div>
-//     ),
-//     WordPress: () => (
-//         <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
-//             <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
-//                 <span className="text-gray-700 font-bold text-xs">W</span>
-//             </div>
-//         </div>
-//     ),
-//     Facebook: () => (
-//         <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-//             <span className="text-white font-bold text-lg">f</span>
-//         </div>
-//     )
-// };
-
-// export default function WorkflowCard({
-//     title = "Đăng bài lên Facebook",
-//     description = "AI tạo email giới thiệu cá nhân hóa (chèn tên, nhu cầu, gợi ý sản phẩm).",
-//     additionalInfo = "Nếu khách hàng mở mail nhưng ádasdas ...",
-//     price = "99.000 đ",
-//     rating = 4.8,
-//     icons = ['Gmail', 'Excel', 'Telegram', 'Zalo', 'WordPress'],
-//     onBuy,
-//     onFavorite,
-//     className = ""
-// }) {
-//     const [isFavorite, setIsFavorite] = useState(false);
-
-//     const handleFavoriteToggle = () => {
-//         const newFavoriteState = !isFavorite;
-//         setIsFavorite(newFavoriteState);
-//         if (onFavorite) {
-//             onFavorite(newFavoriteState);
-//         }
-//     };
-
-//     const handleBuyClick = () => {
-//         if (onBuy) {
-//             onBuy();
-//         }
-//     };
-
-//     return (
-//         <Card
-//             style={{ width: '25%' }}
-//             className={`${className}`}
-//         >
-//             {/* App Icons Row */}
-//             <div className="flex items-center justify-between mb-6">
-//                 <div className="flex space-x-3 b">
-//                     {icons.slice(0, 5).map((iconName, index) => {
-//                         const IconComponent = AppIcons[iconName];
-//                         return IconComponent ? <IconComponent key={index} /> : null;
-//                     })}
-//                 </div>
-
-//                 {/* Rating and Favorite */}
-//                 <div className="flex items-center space-x-3">
-//                     <div className="flex items-center space-x-1">
-//                         <span className="text-yellow-500 text-lg">⭐</span>
-//                         <Text strong className="text-gray-700 text-base">
-//                             {rating}
-//                         </Text>
-//                     </div>
-//                     <button
-//                         onClick={handleFavoriteToggle}
-//                         className="text-xl text-gray-400 hover:text-red-500 transition-colors p-1"
-//                     >
-//                         {isFavorite ?
-//                             <HeartFilled className="text-red-500" /> :
-//                             <HeartOutlined />
-//                         }
-//                     </button>
-//                 </div>
-//             </div>
-
-//             {/* Product Title */}
-//             <Title level={3} className="!mb-4 !text-gray-900 !font-semibold !text-xl">
-//                 {title}
-//             </Title>
-
-//             {/* Description */}
-//             <Text className="text-gray-600 block mb-2 leading-relaxed text-base">
-//                 {description}
-//             </Text>
-
-//             {/* Additional Info with Link */}
-//             <div className="mb-8">
-//                 <Text className="text-gray-600 text-base">
-//                     {additionalInfo}{' '}
-//                     <span className="text-blue-500 hover:text-blue-600 cursor-pointer hover:underline">
-//                         Xem Thêm
-//                     </span>
-//                 </Text>
-//             </div>
-
-//             {/* Price and Buy Button */}
-//             <div className="flex items-center justify-between">
-//                 <div>
-//                     <Text type="secondary" className="text-sm block mb-1 uppercase tracking-wide">
-//                         Price
-//                     </Text>
-//                     <Title level={3} className="!mb-0 !text-teal-600 !font-bold !text-xl">
-//                         {price}
-//                     </Title>
-//                 </div>
-
-//                 <Button
-//                     size="large"
-//                     onClick={handleBuyClick}
-//                     className="px-8 h-12 border-gray-300 text-gray-600 hover:border-teal-500 hover:text-teal-600 font-medium rounded-lg bg-white"
-//                     style={{
-//                         borderColor: '#d1d5db',
-//                         color: '#6b7280'
-//                     }}
-//                 >
-//                     Buy Now
-//                 </Button>
-//             </div>
-//         </Card>
-//     );
-// }
