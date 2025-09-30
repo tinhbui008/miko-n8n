@@ -10,27 +10,49 @@ import {
 } from '@ant-design/icons';
 import styles from './LoginPage.module.css';
 import MikoLogo from '@/components/ui/logo';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const { Text, Link } = Typography;
 
 export default function LoginPage() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handleLogin = async (values) => {
         setLoading(true);
         try {
-            console.log('Login values:', values);
-            // TODO: Xử lý đăng nhập với API ở đây
-            // const response = await loginAPI(values);
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
 
-            // Giả lập API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const data = await response.json();
 
-            message.success('Đăng nhập thành công!');
-            // Router.push('/dashboard'); // Chuyển hướng sau khi đăng nhập
+            console.log(data);
+
+            if (response.ok) {
+                message.success('Đăng nhập thành công!');
+
+                // Lưu token hoặc user info nếu cần
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                }
+                if (data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                }
+
+                // Chuyển hướng đến dashboard
+                router.push('/dashboard');
+            } else {
+                message.error(data.message || 'Đăng nhập thất bại. Vui lòng thử lại!');
+            }
         } catch (error) {
-            message.error('Đăng nhập thất bại. Vui lòng thử lại!');
+            message.error('Có lỗi xảy ra. Vui lòng thử lại!');
             console.error('Login error:', error);
         } finally {
             setLoading(false);
@@ -60,13 +82,17 @@ export default function LoginPage() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.loginBox}>
+            <div style={{
+                zIndex: 9, position: 'relative', boxShadow: 'none',
+                maxWidth: '471px', padding: '40px'
+            }} className={styles.loginBox}>
                 {/* Logo */}
                 <div className={styles.logoContainer}>
-                    <MikoLogo  />
+                    <div className="mb-6 flex justify-center">
+                        <MikoLogo width={200} className="drop-shadow-sm m-auto" />
+                    </div>
                 </div>
 
-                {/* Login Form */}
                 <Form
                     form={form}
                     onFinish={handleLogin}
@@ -76,31 +102,31 @@ export default function LoginPage() {
                 >
                     <Form.Item
                         name="email"
-                        rules={[
-                            { required: true, message: 'Vui lòng nhập email!' },
-                            { type: 'email', message: 'Email không hợp lệ!' }
-                        ]}
+                    // rules={[
+                    //     { required: true, message: 'Vui lòng nhập email!' },
+                    //     { type: 'email', message: 'Email không hợp lệ!' }
+                    // ]}
                     >
                         <Input
                             prefix={<MailOutlined className={styles.inputIcon} />}
                             placeholder="Email"
                             size="large"
-                            className={styles.input}
+                            className={`${styles.input}`}
                         />
                     </Form.Item>
 
                     <Form.Item
                         name="password"
-                        rules={[
-                            { required: true, message: 'Vui lòng nhập mật khẩu!' },
-                            { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' }
-                        ]}
+                    // rules={[
+                    //     { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                    //     { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' }
+                    // ]}
                     >
                         <Input.Password
                             prefix={<LockOutlined className={styles.inputIcon} />}
-                            placeholder="Mật khẩu"
+                            placeholder="Password"
                             size="large"
-                            className={styles.input}
+                            className={`${styles.input}`}
                             iconRender={(visible) => (
                                 visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
                             )}
@@ -134,7 +160,7 @@ export default function LoginPage() {
                         onClick={() => handleSocialLogin('Google')}
                         className={styles.socialButton}
                     >
-                        <GoogleOutlined className={styles.googleIcon} />
+                        <Image alt='google-icon' src="/images/google-icon.png" width={30} height={30} />
                         <span>Google</span>
                     </Button>
 
@@ -144,12 +170,13 @@ export default function LoginPage() {
                         onClick={() => handleSocialLogin('Microsoft')}
                         className={styles.socialButton}
                     >
-                        <svg width="20" height="20" viewBox="0 0 23 23" fill="none">
+                        {/* <svg width="20" height="20" viewBox="0 0 23 23" fill="none">
                             <rect width="11" height="11" fill="#F25022" />
                             <rect x="12" width="11" height="11" fill="#7FBA00" />
                             <rect y="12" width="11" height="11" fill="#00A4EF" />
                             <rect x="12" y="12" width="11" height="11" fill="#FFB900" />
-                        </svg>
+                        </svg> */}
+                        <Image alt='microsoft-icon' src="/images/microsoft-icon.png" width={30} height={30} />
                         <span>Microsoft</span>
                     </Button>
                 </div>
@@ -160,6 +187,7 @@ export default function LoginPage() {
                         <Link
                             href="#"
                             className={styles.link}
+                            style={{ color: '#39AEA1' }}
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleForgotPassword();
@@ -169,11 +197,12 @@ export default function LoginPage() {
                         </Link>
                     </Text>
                     <br />
-                    <Text className={styles.footerTextMargin}>
-                        Chưa có tài khoản?{' '}
+                    <Text className={styles.footerTextMargin} style={{ color: '#999999' }}>
+                        Don't have an account?{' '}
                         <Link
                             href="#"
                             className={styles.link}
+                            style={{ color: '#39AEA1' }}
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleSignUp();
@@ -184,6 +213,48 @@ export default function LoginPage() {
                     </Text>
                 </div>
             </div>
+
+            <svg
+                className={styles.overlay}
+                width="1920"
+                height="545"
+                viewBox="0 0 1920 545"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <g filter="url(#filter0_f_12052_1733)">
+                    <path
+                        d="M-584 683C-154.36 379.314 375.619 200 949 200C1522.38 200 2052.36 379.314 2482 683H-584Z"
+                        fill="url(#paint0_radial_12052_1733)"
+                    />
+                </g>
+                <defs>
+                    <filter
+                        id="filter0_f_12052_1733"
+                        x="-784"
+                        y="0"
+                        width="3466"
+                        height="883"
+                        filterUnits="userSpaceOnUse"
+                        colorInterpolationFilters="sRGB"
+                    >
+                        <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                        <feGaussianBlur stdDeviation="100" result="effect1_foregroundBlur_12052_1733" />
+                    </filter>
+                    <radialGradient
+                        id="paint0_radial_12052_1733"
+                        cx="0"
+                        cy="0"
+                        r="1"
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="translate(949 2705.95) rotate(90) scale(2505.95 2596.93)"
+                    >
+                        <stop offset="0.836538" stopColor="#B5F0E9" />
+                        <stop offset="1" stopColor="#EDFBFA" />
+                    </radialGradient>
+                </defs>
+            </svg>
         </div>
     );
 }

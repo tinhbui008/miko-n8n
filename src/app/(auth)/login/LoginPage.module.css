@@ -1,10 +1,21 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(200deg, #B5F0E9 0%, #EDFBFA 50%, #80deea 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  background-color: #F5F5F5;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  content: "";
+  position: absolute;
+  top: 138px;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .loginBox {
@@ -21,16 +32,13 @@
   margin-bottom: 40px;
 }
 
-.logo {
+/* .logo {
   font-size: 32px;
   font-weight: 700;
-  background: linear-gradient(90deg, #4DD0E1 0%, #26C6DA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #39AEA1;
   margin: 0;
   letter-spacing: 2px;
-}
+} */
 
 .input {
   border-radius: 8px;
@@ -45,9 +53,8 @@
   height: 48px;
   font-size: 16px;
   font-weight: 500;
-  background: linear-gradient(90deg, #4DD0E1 0%, #26C6DA 100%);
+  background: #39AEA1;
   border: none;
-  box-shadow: 0 4px 12px rgba(77, 208, 225, 0.3);
 }
 
 .submitButtonItem {
@@ -83,10 +90,10 @@
 
 .footerLinks {
   text-align: center;
+  color: #39AEA1 !important;
 }
 
 .footerText {
-  color: #595959;
   font-size: 14px;
 }
 
@@ -98,6 +105,5 @@
 }
 
 .link {
-  color: #26C6DA;
-  font-weight: 500;
+  font-weight: 500 !important;
 }

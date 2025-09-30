@@ -209,8 +209,8 @@ export default function DashboardLayout({ children }) {
           onSearch={handleSearch}
           searchPlaceholder="Tìm kiếm ..." />
 
-        <div style={{ marginLeft: '22px', marginRight: '20px' }}>
-          <Flex wrap="wrap" align="center" justify="space-between" gap="middle">
+        <div style={{ margin: '0 20px' }}>
+          <Flex wrap="wrap" align="center" justify="space-between" gap={12}>
             {cards.map((card, index) => (
               <WorkflowCard key={index} {...card} />
             ))}

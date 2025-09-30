@@ -11,6 +11,11 @@ const roboto = Roboto({
 export const metadata = {
   title: 'Miko N8N Clone',
   description: 'Workflow automation platform',
+  icons: {
+    icon: '/images/favicon-32x32.png',
+    shortcut: '/images/favicon-16x16.png',
+    apple: '/images/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
