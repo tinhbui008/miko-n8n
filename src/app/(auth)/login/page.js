@@ -33,17 +33,16 @@ export default function LoginPage() {
 
             const data = await response.json();
 
-            console.log(data);
-
             if (response.ok) {
                 message.success('Đăng nhập thành công!');
 
-                // Lưu token hoặc user info nếu cần
-                if (data.token) {
-                    localStorage.setItem('token', data.token);
-                }
-                if (data.user) {
-                    localStorage.setItem('user', JSON.stringify(data.user));
+                if (typeof window !== 'undefined') {
+                    if (data.token) {
+                        localStorage.setItem('token', data.token);
+                    }
+                    if (data.user) {
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                    }
                 }
 
                 // Chuyển hướng đến dashboard

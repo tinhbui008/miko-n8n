@@ -1,6 +1,7 @@
 // src/app/layout.js
 import { Inter, Roboto } from 'next/font/google';
 import './globals.css';
+import '@/utils/suppressWarnings';
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({

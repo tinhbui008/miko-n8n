@@ -1,16 +1,23 @@
 // src/app/page.js
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     // Redirect to login as default route
     router.replace('/login');
   }, [router]);
+
+  // Prevent hydration mismatch by not rendering until client-side
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">

@@ -1,11 +1,11 @@
 // src/components/ui/Logo.js
 'use client';
 
-const MikoLogo = ({ width = 180, height = "auto", className = "" }) => {
+const MikoLogo = ({ width = 180, height, className = "" }) => {
   return (
-    <svg 
-      width={width} 
-      height={height}
+    <svg
+      width={width}
+      height={height || (width * 125.09 / 826.64)} // Tính height theo tỷ lệ
       className={className}
       viewBox="0 0 826.64 125.09"
       xmlns="http://www.w3.org/2000/svg"
