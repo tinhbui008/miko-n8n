@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
-import { generateToken } from '@/lib/auth';
+import { generateTokenPair, extractDeviceInfo } from '@/lib/tokenService';
 
 export async function POST(request) {
   try {
@@ -58,8 +58,11 @@ export async function POST(request) {
       );
     }
 
-    // Generate JWT token
-    const token = generateToken(user.toJWT());
+    // Extract device info
+    const deviceInfo = extractDeviceInfo(request);
+
+    // Generate access token and refresh token
+    const { accessToken, refreshToken, expiresIn } = await generateTokenPair(user, deviceInfo);
 
     // Update last login
     await user.updateLastLogin();
@@ -68,7 +71,9 @@ export async function POST(request) {
     return NextResponse.json({
       success: true,
       message: 'Đăng nhập thành công',
-      token,
+      accessToken,
+      refreshToken,
+      expiresIn,
       user: user.toJWT()
     }, { status: 200 });
 

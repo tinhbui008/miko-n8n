@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7
+    container_name: miko-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: miko-n8n
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - miko-network
+
+  # Next.js Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: miko-nextjs-app
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/miko-n8n?authSource=admin
+      - JWT_SECRET=Abcxyz123
+      - JWT_EXPIRES_IN=7d
+      - REFRESH_TOKEN_EXPIRES=30d
+      - NEXTAUTH_SECRET=Abcxyz123
+      - NEXTAUTH_URL=http://localhost:8888
+    depends_on:
+      - mongodb
+    networks:
+      - miko-network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  miko-network:
+    driver: bridge

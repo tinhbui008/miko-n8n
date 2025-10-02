@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { verifyToken, extractTokenFromHeader } from '@/lib/auth';
+import { extractTokenFromHeader } from '@/lib/auth';
+import { verifyAccessToken } from '@/lib/tokenService';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 
@@ -20,8 +21,8 @@ export async function authMiddleware(request) {
       );
     }
 
-    // Verify token
-    const decoded = verifyToken(token);
+    // Verify access token
+    const decoded = verifyAccessToken(token);
 
     // Connect to database
     await connectDB();

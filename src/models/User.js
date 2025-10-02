@@ -19,11 +19,15 @@ const UserSchema = new mongoose.Schema({
       'Vui lòng nhập email hợp lệ'
     ]
   },
+  phoneNumbers: {
+    type: [String],
+    default: []
+  },
   password: {
     type: String,
     required: [true, 'Vui lòng nhập mật khẩu'],
     minlength: [6, 'Mật khẩu phải có ít nhất 6 ký tự'],
-    select: false // Không trả về password khi query
+    select: false
   },
   role: {
     type: String,
@@ -59,11 +63,11 @@ const UserSchema = new mongoose.Schema({
     default: true
   }
 }, {
-  timestamps: true // Tự động thêm createdAt và updatedAt
+  timestamps: true
 });
 
 // Middleware để hash password trước khi save
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
   // Chỉ hash password nếu password được thay đổi
   if (!this.isModified('password')) return next();
 
@@ -78,7 +82,7 @@ UserSchema.pre('save', async function(next) {
 });
 
 // Method để so sánh password
-UserSchema.methods.comparePassword = async function(candidatePassword) {
+UserSchema.methods.comparePassword = async function (candidatePassword) {
   try {
     // So sánh password với hash trong database
     return await bcrypt.compare(candidatePassword, this.password);
@@ -88,7 +92,7 @@ UserSchema.methods.comparePassword = async function(candidatePassword) {
 };
 
 // Method để tạo JWT payload
-UserSchema.methods.toJWT = function() {
+UserSchema.methods.toJWT = function () {
   return {
     id: this._id,
     name: this.name,
@@ -100,18 +104,18 @@ UserSchema.methods.toJWT = function() {
 };
 
 // Method để cập nhật last login
-UserSchema.methods.updateLastLogin = function() {
+UserSchema.methods.updateLastLogin = function () {
   this.lastLoginAt = new Date();
   return this.save({ validateBeforeSave: false });
 };
 
 // Static method để tìm user theo email
-UserSchema.statics.findByEmail = function(email) {
+UserSchema.statics.findByEmail = function (email) {
   return this.findOne({ email: email.toLowerCase() });
 };
 
 // Static method để tìm user theo email và include password
-UserSchema.statics.findByEmailWithPassword = function(email) {
+UserSchema.statics.findByEmailWithPassword = function (email) {
   return this.findOne({ email: email.toLowerCase() }).select('+password');
 };
 

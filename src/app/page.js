@@ -10,11 +10,9 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsClient(true);
-    // Redirect to login as default route
     router.replace('/login');
   }, [router]);
 
-  // Prevent hydration mismatch by not rendering until client-side
   if (!isClient) {
     return null;
   }

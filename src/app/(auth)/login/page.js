@@ -45,7 +45,6 @@ export default function LoginPage() {
                     }
                 }
 
-                // Chuyển hướng đến dashboard
                 router.push('/dashboard');
             } else {
                 message.error(data.message || 'Đăng nhập thất bại. Vui lòng thử lại!');

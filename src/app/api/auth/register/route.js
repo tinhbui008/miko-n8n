@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
-import { generateToken } from '@/lib/auth';
+import { generateTokenPair, extractDeviceInfo } from '@/lib/tokenService';
+import { sendWelcomeEmail } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -10,7 +11,7 @@ export async function POST(request) {
 
     // Parse request body
     const body = await request.json();
-    const { name, email, password, confirmPassword } = body;
+    const { name, email, phoneNumbers, password, confirmPassword } = body;
 
     // Validation
     if (!name || !email || !password) {
@@ -59,29 +60,37 @@ export async function POST(request) {
     const user = new User({
       name: name.trim(),
       email: email.toLowerCase().trim(),
+      phoneNumbers,
       password
     });
 
     await user.save();
 
-    // Generate JWT token
-    const token = generateToken(user.toJWT());
+    // Extract device info
+    const deviceInfo = extractDeviceInfo(request);
+
+    // Generate access token and refresh token
+    const { accessToken, refreshToken, expiresIn } = await generateTokenPair(user, deviceInfo);
 
     // Update last login
     await user.updateLastLogin();
+
+    // Send welcome email
+    await sendWelcomeEmail(user.email, user.name);
 
     // Return success response
     return NextResponse.json({
       success: true,
       message: 'Đăng ký thành công',
-      token,
+      accessToken,
+      refreshToken,
+      expiresIn,
       user: user.toJWT()
     }, { status: 201 });
 
   } catch (error) {
     console.error('Register error:', error);
 
-    // Handle mongoose validation errors
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(err => err.message);
       return NextResponse.json(
@@ -93,7 +102,6 @@ export async function POST(request) {
       );
     }
 
-    // Handle mongoose duplicate key error
     if (error.code === 11000) {
       return NextResponse.json(
         {
@@ -104,7 +112,6 @@ export async function POST(request) {
       );
     }
 
-    // Handle other errors
     return NextResponse.json(
       {
         success: false,
@@ -115,7 +122,6 @@ export async function POST(request) {
   }
 }
 
-// Handle other HTTP methods
 export async function GET() {
   return NextResponse.json(
     { message: 'Method not allowed' },

@@ -13,10 +13,38 @@ import {
 import { usePathname } from 'next/navigation';
 
 const { Header: AntHeader } = Layout;
-const { Search } = Input;
+import React, { useState, useEffect } from 'react';
+
 
 export default function Header({ collapsed, onToggle }) {
   const pathname = usePathname();
+  const [loginUser, setLoginUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
+        const response = await fetch('/api/auth/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            setLoginUser(data.user);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch user info:', error);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const getBreadcrumbItems = () => {
     const pathSegments = pathname.split('/').filter(Boolean);
@@ -63,7 +91,9 @@ export default function Header({ collapsed, onToggle }) {
           <span className="text-xs ml-2">
             Hello
             <br />
-            <span className="text-sm text-b-500 font-semibold">Tính Bùi</span>
+            <span className="text-sm text-b-500 font-semibold">
+              {loginUser?.name || 'User'}
+            </span>
           </span>
 
           <Button type="text" icon={<EllipsisOutlined />} style={{ rotate: '90deg' }} />
