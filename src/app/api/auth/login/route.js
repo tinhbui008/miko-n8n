@@ -67,15 +67,33 @@ export async function POST(request) {
     // Update last login
     await user.updateLastLogin();
 
-    // Return success response
-    return NextResponse.json({
+    // Create response
+    const response = NextResponse.json({
       success: true,
       message: 'Đăng nhập thành công',
-      accessToken,
-      refreshToken,
-      expiresIn,
       user: user.toJWT()
     }, { status: 200 });
+
+    // Set HttpOnly cookies for tokens
+    // Access Token (7 days)
+    response.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Only HTTPS in production
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+      path: '/'
+    });
+
+    // Refresh Token (30 days)
+    response.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60, // 30 days in seconds
+      path: '/'
+    });
+
+    return response;
 
   } catch (error) {
     console.error('Login error:', error);

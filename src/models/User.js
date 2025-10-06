@@ -94,7 +94,7 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 // Method để tạo JWT payload
 UserSchema.methods.toJWT = function () {
   return {
-    id: this._id,
+    id: this._id.toString(), // Convert ObjectId to string
     name: this.name,
     email: this.email,
     role: this.role,

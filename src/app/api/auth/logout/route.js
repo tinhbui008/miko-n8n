@@ -10,37 +10,53 @@ export async function POST(request) {
       return authResult; // Return error response from middleware
     }
 
+    // Get refresh token from cookies or request body
+    let refreshToken = request.cookies.get('refreshToken')?.value;
+
     // Parse request body
-    const body = await request.json();
-    const { refreshToken, allDevices } = body;
+    let allDevices = false;
+    try {
+      const body = await request.json();
+      refreshToken = refreshToken || body.refreshToken;
+      allDevices = body.allDevices || false;
+    } catch (e) {
+      // Body is empty or invalid, continue with cookie values
+    }
 
     if (allDevices) {
       // Logout from all devices
       await revokeAllUserTokens(request.user._id, 'User logged out from all devices');
-
-      return NextResponse.json({
-        success: true,
-        message: 'Logged out from all devices successfully'
-      }, { status: 200 });
     } else {
       // Logout from current device only
-      if (!refreshToken) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Refresh token is required'
-          },
-          { status: 400 }
-        );
+      if (refreshToken) {
+        await revokeToken(refreshToken, 'User logout');
       }
-
-      await revokeToken(refreshToken, 'User logout');
-
-      return NextResponse.json({
-        success: true,
-        message: 'Logged out successfully'
-      }, { status: 200 });
     }
+
+    // Create response
+    const response = NextResponse.json({
+      success: true,
+      message: allDevices ? 'Logged out from all devices successfully' : 'Logged out successfully'
+    }, { status: 200 });
+
+    // Clear cookies
+    response.cookies.set('accessToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0, // Expire immediately
+      path: '/'
+    });
+
+    response.cookies.set('refreshToken', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0, // Expire immediately
+      path: '/'
+    });
+
+    return response;
 
   } catch (error) {
     console.error('Logout error:', error);

@@ -7,9 +7,14 @@ import User from '@/models/User';
 // Auth middleware để bảo vệ API routes
 export async function authMiddleware(request) {
   try {
-    // Extract token from Authorization header
-    const authHeader = request.headers.get('authorization');
-    const token = extractTokenFromHeader(authHeader);
+    // Try to get token from cookies first (recommended)
+    let token = request.cookies.get('accessToken')?.value;
+
+    // Fallback to Authorization header (for backward compatibility or external API calls)
+    if (!token) {
+      const authHeader = request.headers.get('authorization');
+      token = extractTokenFromHeader(authHeader);
+    }
 
     if (!token) {
       return NextResponse.json(
@@ -29,6 +34,7 @@ export async function authMiddleware(request) {
 
     // Find user by ID from token
     const user = await User.findById(decoded.id);
+
     if (!user) {
       return NextResponse.json(
         {
@@ -52,12 +58,10 @@ export async function authMiddleware(request) {
     // Add user info to request
     request.user = user;
 
-    return null; // Success, continue to next middleware/handler
+    return null;
 
   } catch (error) {
-    console.error('Auth middleware error:', error);
-
-    if (error.message === 'Token expired') {
+    if (error.message === 'Access token expired') {
       return NextResponse.json(
         {
           success: false,
@@ -67,7 +71,7 @@ export async function authMiddleware(request) {
       );
     }
 
-    if (error.message === 'Invalid token') {
+    if (error.message === 'Invalid access token') {
       return NextResponse.json(
         {
           success: false,
@@ -76,6 +80,8 @@ export async function authMiddleware(request) {
         { status: 401 }
       );
     }
+
+    console.error('Auth middleware error:', error);
 
     return NextResponse.json(
       {

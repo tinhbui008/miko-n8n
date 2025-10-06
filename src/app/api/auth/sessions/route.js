@@ -44,7 +44,7 @@ export async function GET(request) {
   }
 }
 
-// Revoke a specific session
+// Revoke a specific session333
 export async function DELETE(request) {
   try {
     // Authenticate user

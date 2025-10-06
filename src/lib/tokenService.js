@@ -120,9 +120,12 @@ export async function generateTokenPair(user, deviceInfo = {}) {
     // Calculate expiry dates
     const refreshExpiresAt = new Date(Date.now() + parseExpiry(REFRESH_TOKEN_EXPIRES));
 
+    // Ensure userId is properly converted to ObjectId or string
+    const userId = user._id || payload.id;
+
     // Store refresh token in database
     await Token.createToken(
-      payload.id,
+      userId,
       refreshToken,
       'refresh',
       refreshExpiresAt,
@@ -157,15 +160,29 @@ export async function refreshAccessToken(refreshToken) {
       throw new Error('Invalid or revoked refresh token');
     }
 
-    // Get user from token
+    // Get user from token (populated from Token model)
     const user = tokenDoc.userId;
 
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User associated with this token no longer exists');
     }
 
-    // Generate new access token
-    const newAccessToken = generateAccessToken(user.toJWT());
+    // Check if user is active
+    if (!user.isActive) {
+      throw new Error('User account is deactivated');
+    }
+
+    // Generate new access token with proper payload
+    const payload = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      avatar: user.avatar,
+      isEmailVerified: user.isEmailVerified
+    };
+
+    const newAccessToken = generateAccessToken(payload);
 
     return {
       accessToken: newAccessToken,

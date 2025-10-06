@@ -36,13 +36,12 @@ export default function LoginPage() {
             if (response.ok) {
                 message.success('Đăng nhập thành công!');
 
-                if (typeof window !== 'undefined') {
-                    if (data.token) {
-                        localStorage.setItem('token', data.token);
-                    }
-                    if (data.user) {
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                    }
+                // Tokens are now stored in HttpOnly cookies automatically
+                // No need to store in localStorage (more secure)
+
+                // Optional: Store non-sensitive user info in localStorage for UI
+                if (typeof window !== 'undefined' && data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
                 }
 
                 router.push('/dashboard');
@@ -100,10 +99,10 @@ export default function LoginPage() {
                 >
                     <Form.Item
                         name="email"
-                    // rules={[
-                    //     { required: true, message: 'Vui lòng nhập email!' },
-                    //     { type: 'email', message: 'Email không hợp lệ!' }
-                    // ]}
+                        rules={[
+                            { required: true, message: 'Vui lòng nhập email!' },
+                            { type: 'email', message: 'Email không hợp lệ!' }
+                        ]}
                     >
                         <Input
                             prefix={<MailOutlined className={styles.inputIcon} />}
@@ -115,10 +114,10 @@ export default function LoginPage() {
 
                     <Form.Item
                         name="password"
-                    // rules={[
-                    //     { required: true, message: 'Vui lòng nhập mật khẩu!' },
-                    //     { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' }
-                    // ]}
+                        rules={[
+                            { required: true, message: 'Vui lòng nhập mật khẩu!' },
+                            { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' }
+                        ]}
                     >
                         <Input.Password
                             prefix={<LockOutlined className={styles.inputIcon} />}

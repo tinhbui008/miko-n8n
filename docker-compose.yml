@@ -29,7 +29,7 @@ services:
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://admin:password123@mongodb:27017/miko-n8n?authSource=admin
-      - JWT_SECRET=Abcxyz123
+      - JWT_SECRET=JWT_SECRET
       - JWT_EXPIRES_IN=7d
       - REFRESH_TOKEN_EXPIRES=30d
       - NEXTAUTH_SECRET=Abcxyz123
