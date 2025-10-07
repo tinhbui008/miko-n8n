@@ -22,10 +22,12 @@ const nextConfig = {
     return config;
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    // Chỉ ignore trong development, production nên kiểm tra lỗi
+    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
   },
   typescript: {
-    ignoreBuildErrors: true,
+    // Chỉ ignore trong development, production nên kiểm tra lỗi
+    ignoreBuildErrors: process.env.NODE_ENV === 'development',
   }
 };
 

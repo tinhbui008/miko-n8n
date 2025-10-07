@@ -8,13 +8,15 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password123
-      MONGO_INITDB_DATABASE: miko-n8n
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-miko-n8n}
     volumes:
       - mongodb_data:/data/db
     networks:
       - miko-network
+    env_file:
+      - .env.production
 
   app:
     build:
@@ -26,16 +28,26 @@ services:
       - "8888:8888"
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/miko-n8n?authSource=admin
-      - JWT_SECRET=JWT_SECRET
-      - JWT_EXPIRES_IN=7d
-      - REFRESH_TOKEN_EXPIRES=30d
-      - NEXTAUTH_SECRET=Abcxyz123
-      - NEXTAUTH_URL=http://localhost:8888
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
+      - REFRESH_TOKEN_EXPIRES=${REFRESH_TOKEN_EXPIRES:-30d}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE:-false}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM_NAME=${SMTP_FROM_NAME}
+      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
     depends_on:
       - mongodb
     networks:
       - miko-network
+    # Để sử dụng file .env.production, thêm dòng sau:
+    env_file:
+      - .env.production
 
 volumes:
   mongodb_data:
