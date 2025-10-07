@@ -195,7 +195,7 @@ export default function LoginPage() {
                     </Text>
                     <br />
                     <Text className={styles.footerTextMargin} style={{ color: '#999999' }}>
-                        Don't have an account?{' '}
+                        Don&apos;t have an account?{' '}
                         <Link
                             href="#"
                             className={styles.link}
