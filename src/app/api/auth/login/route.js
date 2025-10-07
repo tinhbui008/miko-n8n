@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { generateTokenPair, extractDeviceInfo } from '@/lib/tokenService';
+import { loginRateLimiter } from '@/middleware/rateLimit';
 
 export async function POST(request) {
   try {
+    // Apply rate limiting
+    const rateLimitResult = await loginRateLimiter(request);
+    if (rateLimitResult) {
+      return rateLimitResult; // Return rate limit error response
+    }
+
     // Connect to database
     await connectDB();
 

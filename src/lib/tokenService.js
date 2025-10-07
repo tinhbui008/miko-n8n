@@ -118,19 +118,29 @@ export async function generateTokenPair(user, deviceInfo = {}) {
     const refreshToken = generateRefreshToken(payload);
 
     // Calculate expiry dates
+    const accessExpiresAt = new Date(Date.now() + parseExpiry(ACCESS_TOKEN_EXPIRES));
     const refreshExpiresAt = new Date(Date.now() + parseExpiry(REFRESH_TOKEN_EXPIRES));
 
     // Ensure userId is properly converted to ObjectId or string
     const userId = user._id || payload.id;
 
-    // Store refresh token in database
-    await Token.createToken(
-      userId,
-      refreshToken,
-      'refresh',
-      refreshExpiresAt,
-      deviceInfo
-    );
+    // Store both access token and refresh token in database
+    await Promise.all([
+      Token.createToken(
+        userId,
+        accessToken,
+        'access',
+        accessExpiresAt,
+        deviceInfo
+      ),
+      Token.createToken(
+        userId,
+        refreshToken,
+        'refresh',
+        refreshExpiresAt,
+        deviceInfo
+      )
+    ]);
 
     return {
       accessToken,
@@ -183,6 +193,20 @@ export async function refreshAccessToken(refreshToken) {
     };
 
     const newAccessToken = generateAccessToken(payload);
+
+    // Calculate expiry date and store new access token in database
+    const accessExpiresAt = new Date(Date.now() + parseExpiry(ACCESS_TOKEN_EXPIRES));
+
+    // Get device info from the refresh token
+    const deviceInfo = tokenDoc.deviceInfo || {};
+
+    await Token.createToken(
+      user._id,
+      newAccessToken,
+      'access',
+      accessExpiresAt,
+      deviceInfo
+    );
 
     return {
       accessToken: newAccessToken,

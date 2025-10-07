@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { extractTokenFromHeader } from '@/lib/auth';
-import { verifyAccessToken } from '@/lib/tokenService';
+import { verifyAccessToken, validateToken } from '@/lib/tokenService';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 
@@ -26,11 +26,24 @@ export async function authMiddleware(request) {
       );
     }
 
-    // Verify access token
+    // Verify access token JWT signature
     const decoded = verifyAccessToken(token);
 
     // Connect to database
     await connectDB();
+
+    // Check if token exists in database and is not revoked
+    const { valid, token: tokenDoc } = await validateToken(token);
+
+    if (!valid) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Token has been revoked or is invalid'
+        },
+        { status: 401 }
+      );
+    }
 
     // Find user by ID from token
     const user = await User.findById(decoded.id);
@@ -57,6 +70,7 @@ export async function authMiddleware(request) {
 
     // Add user info to request
     request.user = user;
+    request.tokenDoc = tokenDoc; // Also add token document for reference
 
     return null;
 
