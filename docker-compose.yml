@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # MongoDB Database
   mongodb:
     image: mongo:7
     container_name: miko-mongodb
@@ -17,7 +16,6 @@ services:
     networks:
       - miko-network
 
-  # Next.js Application
   app:
     build:
       context: .
