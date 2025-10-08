@@ -17,7 +17,7 @@ services:
     networks:
       - miko-network
     env_file:
-      - .env
+      - .env.production
 
   app:
     build:
@@ -48,7 +48,7 @@ services:
       - miko-network
     # Để sử dụng file .env.production, thêm dòng sau:
     env_file:
-      - .env
+      - .env.production
 
 volumes:
   mongodb_data:
