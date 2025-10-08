@@ -9,15 +9,15 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-admin}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-miko-n8n}
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: Matkhau2025
+      MONGO_INITDB_DATABASE: miko-n8n
     volumes:
       - mongodb_data:/data/db
     networks:
       - miko-network
     env_file:
-      - .env.production
+      - .env
 
   app:
     build:
@@ -48,7 +48,7 @@ services:
       - miko-network
     # Để sử dụng file .env.production, thêm dòng sau:
     env_file:
-      - .env.production
+      - .env
 
 volumes:
   mongodb_data:
