@@ -2,19 +2,20 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:alpine
-    container_name: miko-nginx
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    depends_on:
-      - app
-    networks:
-      - miko-network
+      image: nginx:alpine
+      container_name: miko-nginx
+      restart: unless-stopped
+      ports:
+        - "80:80"
+        - "443:443"
+      volumes:
+        - ./nginx.conf:/etc/nginx/conf.d/default.conf
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/www:/var/www/certbot
+      depends_on:
+        - app
+      networks:
+        - miko-network
 
   certbot:
     image: certbot/certbot
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+      
   mongodb:
     image: mongo:7
     container_name: miko-mongodb
