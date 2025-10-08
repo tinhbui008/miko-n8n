@@ -5,6 +5,7 @@ services:
     image: mongo:7
     container_name: miko-mongodb
     restart: unless-stopped
+    # Comment lệnh ports để ẩn MongoDB ra internet - chỉ truy cập internally
     ports:
       - "27017:27017"
     environment:
