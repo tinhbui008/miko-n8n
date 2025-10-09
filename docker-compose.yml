@@ -5,7 +5,6 @@ services:
     image: mongo:7
     container_name: miko-mongodb
     restart: unless-stopped
-    # Comment lệnh ports để ẩn MongoDB ra internet - chỉ truy cập internally
     ports:
       - "27017:27017"
     environment:
@@ -16,8 +15,6 @@ services:
       - mongodb_data:/data/db
     networks:
       - miko-network
-    env_file:
-      - .env.production
 
   app:
     build:
@@ -29,26 +26,23 @@ services:
       - "8888:8888"  # Expose port 8888 ra internet cho aaPanel reverse proxy
     environment:
       - NODE_ENV=production
-      - MONGODB_URI=${MONGODB_URI}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
-      - REFRESH_TOKEN_EXPIRES=${REFRESH_TOKEN_EXPIRES:-30d}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_SECURE=${SMTP_SECURE:-false}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_FROM_NAME=${SMTP_FROM_NAME}
-      - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
+      - MONGODB_URI=mongodb://admin:Matkhau2025@mongodb:27017/miko-n8n?authSource=admin
+      - JWT_SECRET=292565196d11e8c80b9812ad4844ae331c294a34fbfbdb1a867ce0a4d3d625cf8f4ce314ce8f4db69c04f71324e8095505182ef6adf0f4e528adb1522d768419
+      - JWT_EXPIRES_IN=7d
+      - REFRESH_TOKEN_EXPIRES=30d
+      - NEXTAUTH_SECRET=dL6xuUGZx6o4rmLLgBUbTbrgumrI4f88/urXcsfOTPI=
+      - NEXTAUTH_URL=http://autoworkflow.mikotech.vn
+      - SMTP_HOST=mail92115.maychuemail.com
+      - SMTP_PORT=587
+      - SMTP_SECURE=false
+      - SMTP_USER=mikon8n@mikotech.vn
+      - SMTP_PASSWORD=L36239rJLe
+      - SMTP_FROM_NAME=Miko N8N
+      - SMTP_FROM_EMAIL=mikon8n@mikotech.vn
     depends_on:
       - mongodb
     networks:
       - miko-network
-    # Để sử dụng file .env.production, thêm dòng sau:
-    env_file:
-      - .env.production
 
 volumes:
   mongodb_data:
